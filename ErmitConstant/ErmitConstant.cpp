@@ -2,11 +2,46 @@
 //
 
 #include <iostream>
+#include "Matrix.h"
+using namespace std;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	/*Matrix mat = Matrix(3,1.0);
+	cout << mat;
+	double  matrix[3][3];
+	matrix[0][0] = 1;
+	double a11 = 7;
+	double &reffa11 = a11;
+	Matrix mat2 = Matrix(3, reffa11);
+	a11 = 10;
+	cout << mat2;
+	a11 = 20;
+	cout << mat2;
+    cout << "Hello World!\n";*/
+	
 }
+
+double** initialMatrix()
+{
+	int dim;
+	int temp;
+	cout << "Enter dimention of matrix";
+	cin >> dim;
+	double** matrix = new double* [dim];
+	for (int i = 0; i < dim; i++) {
+		matrix[i] = new double[dim];
+		for (int j = 0; j < dim; j++) {
+			cout << "Enter element of matrix in index" << i + 1 << j + 1;
+			cin >> temp;
+			matrix[i][j] = temp;
+			if (i = !j) matrix[j][i] = temp;
+		}
+	}
+	return matrix;
+}
+
+double determinant(double** m)
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
