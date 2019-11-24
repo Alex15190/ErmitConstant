@@ -2,8 +2,34 @@
 //
 
 #include <iostream>
-#include "Matrix.h"
+#include "MutableMatrix.h"
 using namespace std;
+
+const int MAXN = 100;
+int a[MAXN];
+
+void f(int n, int m, int ind)
+{
+	if (!n && !m)
+	{
+		for (int i = 0; i < ind; ++i)
+			cout << a[i] << " ";
+		cout << endl;
+		return;
+	}
+
+	if (n)
+	{
+		a[ind] = 0;
+		f(n - 1, m, ind + 1);
+	}
+
+	if (m)
+	{
+		a[ind] = 1;
+		f(n, m - 1, ind + 1);
+	}
+}
 
 int main()
 {
@@ -19,29 +45,16 @@ int main()
 	a11 = 20;
 	cout << mat2;
     cout << "Hello World!\n";*/
+
+	MutableMatrix matrix = MutableMatrix();
+	int n = 2, m = 3;
+	f(n, m, 0);
+
+	return 0;
+
 	
 }
 
-double** initialMatrix()
-{
-	int dim;
-	int temp;
-	cout << "Enter dimention of matrix";
-	cin >> dim;
-	double** matrix = new double* [dim];
-	for (int i = 0; i < dim; i++) {
-		matrix[i] = new double[dim];
-		for (int j = 0; j < dim; j++) {
-			cout << "Enter element of matrix in index" << i + 1 << j + 1;
-			cin >> temp;
-			matrix[i][j] = temp;
-			if (i = !j) matrix[j][i] = temp;
-		}
-	}
-	return matrix;
-}
-
-double determinant(double** m)
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"

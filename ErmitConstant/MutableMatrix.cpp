@@ -3,22 +3,36 @@
 #include <ctime>
 using namespace std;
 
+template <typename typed, size_t n> void size(typed(&a)[n])
+{
+	for (size_t q = 0; q < n; ++q)
+		cout << a[q] << ' ';
+
+	cout << '\n';
+}
+
 MutableMatrix::MutableMatrix()
 {
-	double temp;
-	cout << "Enter dimention of matrix";
+	double temp = 0;
+	cout << "Enter dimention of matrix ";
 	cin >> this->dim;
 	this->matrix = new double* [this->dim];
-	for (int i = 0; i < this->dim; i++) {
+	for (int i = 0; i < this->dim; ++i) {
 		this->matrix[i] = new double[this->dim];
 		for (int j = 0; j <= i ; j++) {
 			if (i = !j) {
-				cout << "Enter element of matrix in index" << i + 1 << j + 1;
+				cout << "Enter element of matrix in index " << i + 1 << " " << j + 1 << " ";
 				cin >> temp;
-				this->matrix[i][j] = (double)temp;
-				this->matrix[j][i] = (double)temp;
+				this->matrix[i][j] = 0.0;
+				this->matrix[j][i] = 0.0;
+
+
+				//cin >> this->matrix[i][j];
+				//cin >> this->matrix[j][i];
+				//this->matrix[i][j] = temp;
+				//this->matrix[j][i] = temp;
 			}
-			else this->matrix[i][j] = 1;
+			else this->matrix[i][j] = 1.0;
 		}
 	}
 }
@@ -67,32 +81,37 @@ MutableMatrix::~MutableMatrix()
 double MutableMatrix::det()
 {
 	srand(time(NULL));
+	return this->_det(*this);
+	
+}
+
+double MutableMatrix::_det(MutableMatrix& m) {
 	double det = 0;
-	if (this->dim == 1 ) {
-		det = this->matrix[0][0];
+	if (m.dim == 1) {
+		det = m.matrix[0][0];
 	}
-	else if (this->dim == 2) {
-		det = this->matrix[0][0] * this->matrix[1][1] - this->matrix[0][1] * this->matrix[1][0];
+	else if (m.dim == 2) {
+		det = m.matrix[0][0] * m.matrix[1][1] - m.matrix[0][1] * m.matrix[1][0];
 	}
 	else {
 		bool isRow = rand() % 2;
 		if (isRow) {
-			int row = rand() % this->dim;
-			for (int i = 0; i < this->dim; i++) {
-				if (this->matrix[row][i] != 0) {
-					MutableMatrix s = this->sub(row, i);
+			int row = rand() % m.dim;
+			for (int i = 0; i < m.dim; i++) {
+				if (m.matrix[row][i] != 0) {
+					MutableMatrix s = m.sub(row, i);
 					int n = (i + row) % 2 == 0 ? 1 : -1;
-					det += n * this->matrix[row][i] * this->det(s);
+					det += n * m.matrix[row][i] * m._det(s);
 				}
 			}
 		}
 		else {
-			int col = rand() % this->dim;
-			for (int i = 0; i < this->dim; i++) {
-				if (this->matrix[i][col] != 0) {
-					MutableMatrix s = this->sub(i, col);
+			int col = rand() % m.dim;
+			for (int i = 0; i < m.dim; i++) {
+				if (m.matrix[i][col] != 0) {
+					MutableMatrix s = m.sub(i, col);
 					int n = (i + col) % 2 == 0 ? 1 : -1;
-					det += n * this->matrix[i][col] * this->det(s);
+					det += n * m.matrix[i][col] * m._det(s);
 				}
 			}
 		}
@@ -124,3 +143,30 @@ MutableMatrix MutableMatrix::sub(int row, int col) {
 	}
 	return MutableMatrix(this->dim - 1, m);
 }
+
+
+/*double minDet(int n, int m, int ind, MutableMatrix m) {
+	const int MAXN = 100;
+	int a[MAXN];
+	int numbOfZero, numbOfOne;
+	if (!numbOfZero && !numbOfOne)
+	{
+		for (int i = 0; i < ind; ++i)
+			cout << a[i] << " ";
+		cout << endl;
+		return;
+	}
+
+	if (numbOfZero)
+	{
+		a[ind] = 0;
+		f(numbOfZero - 1, numbOfOne, ind + 1);
+	}
+
+	if (numbOfOne)
+	{
+		a[ind] = 1;
+		f(numbOfZero, numbOfOne - 1, ind + 1);
+	}
+}*/
+

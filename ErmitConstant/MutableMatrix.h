@@ -5,6 +5,7 @@ class MutableMatrix
 private:
 	double** matrix;
 	int dim;
+	double _det(MutableMatrix& m);
 public:
 	MutableMatrix();
 	MutableMatrix(int dim, double* aij);
@@ -12,6 +13,6 @@ public:
 	~MutableMatrix();
 	double det();
 	MutableMatrix sub(int row, int col);
-
+	//friend double minDet(MutableMatrix m);
 
 };
