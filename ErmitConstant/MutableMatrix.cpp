@@ -17,24 +17,19 @@ MutableMatrix::MutableMatrix()
 	cout << "Enter dimention of matrix ";
 	cin >> this->dim;
 	this->matrix = new double* [this->dim];
-	for (int i = 0; i < this->dim; ++i) {
+	for (size_t i = 0; i < this->dim; ++i) {
 		this->matrix[i] = new double[this->dim];
-		for (int j = 0; j <= i ; j++) {
-			if (i = !j) {
-				cout << "Enter element of matrix in index " << i + 1 << " " << j + 1 << " ";
-				cin >> temp;
-				this->matrix[i][j] = 0.0;
-				this->matrix[j][i] = 0.0;
+	}
 
+	//инициализация
 
-				//cin >> this->matrix[i][j];
-				//cin >> this->matrix[j][i];
-				//this->matrix[i][j] = temp;
-				//this->matrix[j][i] = temp;
-			}
-			else this->matrix[i][j] = 1.0;
+	for (size_t i = 0; i < this->dim; ++i) {
+		for (size_t j = 0; j < this->dim; ++j) {
+			std::cout << "Matrix[" << i << "][" << j << "] = ";
+			std::cin >> this->matrix[i][j];
 		}
 	}
+
 }
 
 MutableMatrix::MutableMatrix(int dim, double* aij)
@@ -73,9 +68,10 @@ MutableMatrix::MutableMatrix(int dim, double** matrix) {
 
 MutableMatrix::~MutableMatrix()
 {
-	for (int i = 0; i < this->dim; i++)
-		delete this->matrix[i];
-	delete this->matrix;
+	for (size_t i = 0; i < this->dim; ++i) {
+		delete[] this->matrix[i];
+	}
+	delete[] this->matrix;
 }
 
 double MutableMatrix::det()
