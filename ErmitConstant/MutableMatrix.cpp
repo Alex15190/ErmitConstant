@@ -3,13 +3,13 @@
 #include <ctime>
 using namespace std;
 
-template <typename typed, size_t n> void size(typed(&a)[n])
+/*template <typename typed, size_t n> void size(typed(&a)[n])
 {
 	for (size_t q = 0; q < n; ++q)
 		cout << a[q] << ' ';
 
 	cout << '\n';
-}
+}*/
 
 MutableMatrix::MutableMatrix()
 {
@@ -24,9 +24,15 @@ MutableMatrix::MutableMatrix()
 	//инициализация
 
 	for (size_t i = 0; i < this->dim; ++i) {
-		for (size_t j = 0; j < this->dim; ++j) {
-			std::cout << "Matrix[" << i << "][" << j << "] = ";
-			std::cin >> this->matrix[i][j];
+		for (size_t j = 0; j <= i; ++j) {
+			if (i == j) this->matrix[i][i] = 1;
+			else {
+				std::cout << "Matrix[" << i << "][" << j << "] = " << "Matrix[" << j << "][" << i << "] = ";
+				double temp;
+				std::cin >> temp;
+				this->matrix[i][j] = temp;
+				this->matrix[j][i] = temp;
+			}
 		}
 	}
 
@@ -141,28 +147,11 @@ MutableMatrix MutableMatrix::sub(int row, int col) {
 }
 
 
-/*double minDet(int n, int m, int ind, MutableMatrix m) {
-	const int MAXN = 100;
-	int a[MAXN];
-	int numbOfZero, numbOfOne;
-	if (!numbOfZero && !numbOfOne)
-	{
-		for (int i = 0; i < ind; ++i)
-			cout << a[i] << " ";
+void MutableMatrix::print() {
+	for (int i = 0; i < this->dim; i++) {
+		for (int j = 0; j < this->dim; j++) {
+			cout << this->matrix[i][j] << "\t";
+		}
 		cout << endl;
-		return;
 	}
-
-	if (numbOfZero)
-	{
-		a[ind] = 0;
-		f(numbOfZero - 1, numbOfOne, ind + 1);
-	}
-
-	if (numbOfOne)
-	{
-		a[ind] = 1;
-		f(numbOfZero, numbOfOne - 1, ind + 1);
-	}
-}*/
-
+}

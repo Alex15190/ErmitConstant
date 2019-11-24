@@ -14,5 +14,6 @@ public:
 	double det();
 	MutableMatrix sub(int row, int col);
 	//friend double minDet(MutableMatrix m);
+	void print();
 
 };

@@ -5,29 +5,43 @@
 #include "MutableMatrix.h"
 using namespace std;
 
-const int MAXN = 100;
-int a[MAXN];
+const int N = 4;
+const int MAXN = N*(N-1)/2;
+double a[MAXN];
 
-void f(int n, int m, int ind)
+//int min(*a)
+
+int find (int n, int m, int ind)
 {
 	if (!n && !m)
 	{
 		for (int i = 0; i < ind; ++i)
 			cout << a[i] << " ";
 		cout << endl;
-		return;
+		// cout << size(a) << endl;
+		double* temp = a;
+		//cout << "ind = " << ind << endl;
+		MutableMatrix m = MutableMatrix((double)N, temp);
+
+		cout << endl;
+		m.print();
+		cout << endl;
+		cout << "det = " << m.det() << endl;
+		cout << "_______________________________________"<<endl;
+		// вот тут уже сформированный набор.
+		return 0;
 	}
 
 	if (n)
 	{
 		a[ind] = 0;
-		f(n - 1, m, ind + 1);
+		find(n - 1, m, ind + 1);
 	}
 
 	if (m)
 	{
 		a[ind] = 1;
-		f(n, m - 1, ind + 1);
+		find(n, m - 1, ind + 1);
 	}
 }
 
@@ -46,9 +60,17 @@ int main()
 	cout << mat2;
     cout << "Hello World!\n";*/
 
-	MutableMatrix matrix = MutableMatrix();
-	int n = 2, m = 3;
-	f(n, m, 0);
+	//MutableMatrix matrix = MutableMatrix();
+	// n - zero m - one
+
+	// 3 = n(n-1)/2 при n = 3
+
+	for (int i = 0; i <= N; i++) {
+		int n = i, m = N - i;
+		find(n, m, 0);
+	}
+	//int n = 2, m = 3;
+	//find(n, m, 0);
 
 	return 0;
 
