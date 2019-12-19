@@ -18,6 +18,9 @@ private:
 
 public:
 	Matrix(int dim = 1, const double& init = double());
+
+	Matrix(int dim, double* aij);
+
 	Matrix(int rows, int cols, const double& init = double());
 	Matrix(int rows, int cols, double** matrix);
 	Matrix(const Matrix& m);
