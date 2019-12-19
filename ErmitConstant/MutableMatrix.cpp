@@ -56,6 +56,30 @@ MutableMatrix::MutableMatrix(int dim, double* aij)
 	}
 }
 
+MutableMatrix::MutableMatrix(int dim, double* aij, bool special) {
+	if (special) {
+		int counter = 0;
+		this->dim = dim;
+		this->matrix = new double* [this->dim];
+		for (int i = 0; i < this->dim; i++) {
+			this->matrix[i] = new double[this->dim];
+			for (int j = 0; j <= i; j++) {
+				if (i == j) this->matrix[i][j] = 1;
+				/*else if (j==0 && i == 2) {
+					this->matrix[i][j] = (aij[counter] - 0.5)/2;
+					this->matrix[j][i] = (aij[counter] - 0.5)/2;
+				}*/
+				else {
+					this->matrix[i][j] = (aij[counter] - 0.5);
+					this->matrix[j][i] = (aij[counter] - 0.5); 
+				}
+				counter++;
+			}
+		}
+	}
+	else MutableMatrix(dim, aij);
+}
+
 MutableMatrix::MutableMatrix(int dim, double** matrix) {
 	if (dim < 1) {
 		cerr << "[Matrix(int, double&)] invalid argument exception: dim must be positive" << endl;

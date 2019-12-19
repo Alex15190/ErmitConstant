@@ -15,19 +15,23 @@ int find (int n, int m, int ind)
 {
 	if (!n && !m)
 	{
-		for (int i = 0; i < ind; ++i)
-			cout << a[i] << " ";
-		cout << endl;
+		
 		// cout << size(a) << endl;
 		double* temp = a;
 		//cout << "ind = " << ind << endl;
-		MutableMatrix m = MutableMatrix((double)N, temp);
+		MutableMatrix m = MutableMatrix((double)N, temp, true);
 
 		cout << endl;
-		m.print();
-		cout << endl;
-		cout << "det = " << m.det() << endl;
-		cout << "_______________________________________"<<endl;
+		//if (m.det() != 0.0) {
+			for (int i = 0; i < ind; ++i)
+				cout << a[i] << " ";
+			cout << endl;
+			m.print();
+			cout << endl;
+			cout << "det = " << m.det() << endl;
+			cout << "_______________________________________" << endl;
+		//}
+		
 		// вот тут уже сформированный набор.
 		return 0;
 	}
