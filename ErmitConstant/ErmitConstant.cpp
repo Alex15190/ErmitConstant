@@ -53,21 +53,18 @@ int find (int n, int m, int ind)
 }
 */
 
-const int N = 4;
+const int N = 2;
 const int MAXN = N * (N - 1) / 2;
 double a[MAXN];
 
-vector<Matrix> generateMatrix(int n, int m, int ind) {
+Matrix generateMatrix(int n, int m, int ind) {
 	if (!n && !m)
 	{
-
-		// cout << size(a) << endl;
+		cout << "in !n && !m" << endl;
 		double* temp = a;
-		//cout << "ind = " << ind << endl;
-		Matrix m = Matrix(N, N,temp);
+		Matrix m = Matrix(N, temp);
 
 		cout << endl;
-		//if (m.det() != 0.0) {
 		for (int i = 0; i < ind; ++i)
 			cout << a[i] << " ";
 		cout << endl;
@@ -75,22 +72,29 @@ vector<Matrix> generateMatrix(int n, int m, int ind) {
 		cout << endl;
 		cout << "det = " << m.det() << endl;
 		cout << "_______________________________________" << endl;
-		//}
 
-		// вот тут уже сформированный набор.
-		return 0;
+		cout << "out !n && !m" << endl;
+		return m;
 	}
 
 	if (n)
 	{
+		cout << "in n" << endl;
+
 		a[ind] = -0.5;
-		find(n - 1, m, ind + 1);
+		generateMatrix(n - 1, m, ind + 1);
+
+		cout << "out n" << endl;
 	}
 
 	if (m)
 	{
+		cout << "in m" << endl;
+
 		a[ind] = 0.5;
-		find(n, m - 1, ind + 1);
+		generateMatrix(n, m - 1, ind + 1);
+
+		cout << "out m" << endl;
 	}
 }
 
@@ -98,6 +102,13 @@ vector<Matrix> generateMatrix(int n, int m, int ind) {
 
 int main()
 {
-
+	vector<Matrix> startVector;
+	vector<Matrix> higherOne;
+	vector<Matrix> lowerOne;
+	vector<Matrix> equallyOne;
+	for (int i = 0; i <= N; i++) {
+		int n = i, m = N - i;
+		startVector.push_back(generateMatrix(n, m, 0));
+	}
 	return 0;
 }

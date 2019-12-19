@@ -34,6 +34,9 @@ public:
 	void mSwap(int x, int y);
 	void mMult(int x, double k);
 	void mComb(int x, int y, double k = double(1));
+
+	void print();
+
 	Matrix swap(int x, int y);
 	Matrix mult(int x, double k);
 	Matrix comb(int x, int y, double k = double(1));

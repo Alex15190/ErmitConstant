@@ -31,6 +31,9 @@ public:
 	void mSwap(int x, int y);
 	void mMult(int x, double k);
 	void mComb(int x, int y, double k = double(1));
+
+	void print();
+
 	Matrix swap(int x, int y);
 	Matrix mult(int x, double k);
 	Matrix comb(int x, int y, double k = double(1));
@@ -104,9 +107,12 @@ Matrix::Matrix(int dim, double* aij) {
 	this->matrix = new double* [dim];
 	for (int i = 0; i < dim; i++) {
 		this->matrix[i] = new double[dim];
-		for (int j = 0; j < dim; j++) {
+	}
+
+	for (int i = 0; i < dim; i++) {
+		for (int j = 0; j <= i; j++) {
 			if (i == j) this->matrix[i][j] = 1;
-			else {
+			else { 
 				this->matrix[i][j] = aij[counter];
 				this->matrix[j][i] = aij[counter];
 			}
@@ -321,6 +327,15 @@ double Matrix::_det(Matrix& m) {
 }
 
 /* PUBLIC METHODS */
+
+void Matrix::print() {
+	for (int i = 0; i < this->rows; i++) {
+		for (int j = 0; j < this->cols; j++) {
+			cout << this->matrix[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
 
 bool Matrix::isNull() {
 	bool res = true;
