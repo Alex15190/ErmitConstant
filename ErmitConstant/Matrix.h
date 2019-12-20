@@ -20,6 +20,7 @@ public:
 	Matrix(int dim = 1, const double& init = double());
 
 	Matrix(int dim, double* aij);
+	Matrix(int rows, double* v, bool isVector);
 
 	Matrix(int rows, int cols, const double& init = double());
 	Matrix(int rows, int cols, double** matrix);

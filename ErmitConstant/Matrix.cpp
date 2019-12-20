@@ -18,6 +18,7 @@ public:
 	Matrix(int rows, int cols, const double& init = double());
 
 	Matrix(int dim, double* aij);
+	Matrix(int rows, double* v, bool isVector);
 
 	Matrix(int rows, int cols, double** matrix);
 	Matrix(const Matrix& m);
@@ -97,11 +98,11 @@ Matrix::Matrix(int dim, const double& init) {
 
 
 Matrix::Matrix(int dim, double* aij) {
-	int counter = 0;
 	if (dim < 1) {
 		cerr << "[Matrix(int, const double&)] invalid argument exception: dim must be positive" << endl;
 		throw "[Matrix(int, const double&)] invalid argument exception: dim must be positive";
 	}
+	int counter = 0;
 	this->rows = dim;
 	this->cols = dim;
 	this->matrix = new double* [dim];
@@ -121,6 +122,23 @@ Matrix::Matrix(int dim, double* aij) {
 	}
 }
 
+
+Matrix::Matrix(int rows, double* v, bool isVector) {
+	if (rows < 1) {
+		cerr << "[Matrix(int, const double&)] invalid argument exception: rows must be positive" << endl;
+		throw "[Matrix(int, const double&)] invalid argument exception: rows must be positive";
+	}
+	this->rows = rows;
+	this->cols = 1;
+	this->matrix = new double* [rows];
+	for (int i = 0; i < rows; i++) {
+		this->matrix[i] = new double[cols];
+		for (int j = 0; j < cols; j++) {
+			this->matrix[i][j] = v[i];
+		}
+	}
+
+}
 
 Matrix::Matrix(int rows, int cols, const double& init) {
 	if (rows < 1) {
