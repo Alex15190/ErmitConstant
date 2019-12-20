@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ctime>
+#include <vector>
 using namespace std;
 
 class Matrix {
@@ -18,7 +19,7 @@ public:
 	Matrix(int rows, int cols, const double& init = double());
 
 	Matrix(int dim, double* aij);
-	Matrix(int rows, double* v, bool isVector);
+	Matrix(vector<int> v);
 
 	Matrix(int rows, int cols, double** matrix);
 	Matrix(const Matrix& m);
@@ -123,7 +124,8 @@ Matrix::Matrix(int dim, double* aij) {
 }
 
 
-Matrix::Matrix(int rows, double* v, bool isVector) {
+Matrix::Matrix(vector<int> v){
+	int rows = v.size();
 	if (rows < 1) {
 		cerr << "[Matrix(int, const double&)] invalid argument exception: rows must be positive" << endl;
 		throw "[Matrix(int, const double&)] invalid argument exception: rows must be positive";
