@@ -10,22 +10,11 @@ const int N = 2;
 const int MAXN = N * (N - 1) / 2;
 double a[MAXN];
 
-Matrix generateMatrix(int n, int m, int ind) {
+double* generateMatrix(int n, int m, int ind) {
 	if (!n && !m)
 	{
-		double* temp = a;
-		Matrix matr = Matrix(N, temp);
-		
-		cout << endl;
-		for (int i = 0; i < ind; ++i)
-			cout << a[i] << " ";
-		cout << endl;
-		cout << matr;
-		cout << endl;
-		cout << "det = " << matr.det() << endl;
-		cout << "_______________________________________" << endl;
-		
-		return matr;
+		double* tmp = a;
+		return tmp;
 	}
 
 	if (n)
@@ -46,6 +35,7 @@ void recursiveGenVector(vector<int> v, int dim, vector<Matrix>* vm) {
 		for (int i = -1; i < 2; i++) {
 			v.push_back(i);
 			vm->push_back(Matrix(v));
+			v.pop_back();
 		}
 	}
 	else {
@@ -64,7 +54,7 @@ vector<Matrix> generateVector(int dim) {
 		for (int i = -1; i < 2; i++) {
 			v.push_back(i);
 			recursiveGenVector(v, dim - 1, &vm);
-			//m.insert(end(m),begin(m1),end(m1));
+			v.pop_back();
 		}
 		return vm;
 	}
@@ -77,17 +67,25 @@ vector<Matrix> generateVector(int dim) {
 
 int main()
 {
-	vector<Matrix> startVector;
+	vector<Matrix> startMatrix;
+
 	vector<Matrix> higherOne;
 	vector<Matrix> lowerOne;
 	vector<Matrix> equallyOne;
+
+	vector<Matrix> vectors;
 
 	//vector<Matrix> vectors = generateVector(N);
 
 	for (int i = 0; i <= N; i++) {
 		int n = i, m = N - i;
-		Matrix m1 = generateMatrix(n, m, 0);
-		startVector.push_back(m1);
+		Matrix m1 = Matrix(N, generateMatrix(n, m, 0));
+		startMatrix.push_back(m1);
+	}
+
+	vectors = generateVector(N);
+	for (int i = 0; i < vectors.size(); i++) {
+		cout << "vectors[" << i << "] = " << endl << vectors[i] << endl;
 	}
 	return 0;
 }
