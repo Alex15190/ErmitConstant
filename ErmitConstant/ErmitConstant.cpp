@@ -6,7 +6,7 @@
 #include "Matrix.h"
 using namespace std;
 
-const int N = 2;
+const int N = 3;
 const int MAXN = N * (N - 1) / 2;
 double a[MAXN];
 
@@ -42,6 +42,7 @@ void recursiveGenVector(vector<int> v, int dim, vector<Matrix>* vm) {
 		for (int i = -1; i < 2; i++) {
 			v.push_back(i);
 			recursiveGenVector(v, dim - 1, vm);
+			v.pop_back();
 		}
 	}
 
