@@ -6,7 +6,7 @@
 #include "Matrix.h"
 using namespace std;
 
-const int N = 3;
+const int N = 2;
 const int MAXN = N * (N - 1) / 2;
 double a[MAXN];
 
@@ -64,11 +64,15 @@ vector<Matrix> generateVector(int dim) {
 }
 
 int matMult(Matrix vect, Matrix matr) {
-	Matrix m1 = vect * matr * vect.transpost();
-	cout <<"Matrix multipl = "<< endl << m1;
-	return m1.det;
+	Matrix m1 = vect.transpost() * matr * vect;
+	return m1.det();
 }
 
+double findAlpha(Matrix a, Matrix b) {
+	double p = 1 - b.det();
+	double q = a.det() - b.det();
+	return p / q;
+}
 
 
 
@@ -89,10 +93,11 @@ int main()
 	}
 
 	vectors = generateVector(N);
+	/*
 	for (int i = 0; i < vectors.size(); i++) {
 		cout << "vectors[" << i << "] = " << endl << vectors[i] << endl;
 	}
-
+	*/
 
 
 	for (int i = 0; i < vectors.size(); i++) {
@@ -107,11 +112,35 @@ int main()
 				lowerOne.push_back(startMatrix[j]);
 			}
 		}
+
 		//потом делаем те, которые = 1
+		for (int k = 0; k < higherOne.size(); k++) {
+			for (int j = lowerOne.size() - 1; j >= 0; j--) {
+				double alpha = findAlpha(lowerOne[j],higherOne[k]);
+				Matrix tmp = alpha * lowerOne[j] + (1 - alpha) * higherOne[k];
+				equallyOne.push_back(tmp);
+			}
+		}
+
 		//чистим те, которые < 1
-		//затем ищем мин определитель
+		lowerOne.clear();
+
+		
 
 	}
+
+	//затем ищем мин определитель
+
+	double minDet = higherOne[1].det();
+	for (int i = 0; i < higherOne.size(); i++) {
+		if (higherOne[i].det() < minDet) minDet = higherOne[i].det();
+	}
+
+	for (int i = 0; i < equallyOne.size(); i++) {
+		if (equallyOne[i].det() < minDet) minDet = equallyOne[i].det();
+	}
+
+	cout << "Min det for N = " << N << " is: " << minDet << endl;
 
 	return 0;
 }
