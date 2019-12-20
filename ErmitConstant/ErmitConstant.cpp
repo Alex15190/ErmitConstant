@@ -63,6 +63,12 @@ vector<Matrix> generateVector(int dim) {
 		cerr << "dimention must be >= 2" << endl;
 }
 
+int matMult(Matrix vect, Matrix matr) {
+	Matrix m1 = vect * matr * vect.transpost();
+	cout <<"Matrix multipl = "<< endl << m1;
+	return m1.det;
+}
+
 
 
 
@@ -76,8 +82,6 @@ int main()
 
 	vector<Matrix> vectors;
 
-	//vector<Matrix> vectors = generateVector(N);
-
 	for (int i = 0; i <= N; i++) {
 		int n = i, m = N - i;
 		Matrix m1 = Matrix(N, generateMatrix(n, m, 0));
@@ -88,5 +92,26 @@ int main()
 	for (int i = 0; i < vectors.size(); i++) {
 		cout << "vectors[" << i << "] = " << endl << vectors[i] << endl;
 	}
+
+
+
+	for (int i = 0; i < vectors.size(); i++) {
+		for (int j = 0; j < startMatrix.size(); j++) {
+			if (matMult(vectors[i], startMatrix[j]) > 1) {
+				higherOne.push_back(startMatrix[j]);
+			}
+			else if (matMult(vectors[i], startMatrix[j]) == 1) {
+				equallyOne.push_back(startMatrix[j]);
+			}
+			else if (matMult(vectors[i], startMatrix[j]) < 1) {
+				lowerOne.push_back(startMatrix[j]);
+			}
+		}
+		//потом делаем те, которые = 1
+		//чистим те, которые < 1
+		//затем ищем мин определитель
+
+	}
+
 	return 0;
 }
