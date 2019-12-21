@@ -117,8 +117,8 @@ Matrix::Matrix(int dim, double* aij) {
 			else { 
 				this->matrix[i][j] = aij[counter];
 				this->matrix[j][i] = aij[counter];
+				counter++;
 			}
-			counter++;
 		}
 	}
 }
