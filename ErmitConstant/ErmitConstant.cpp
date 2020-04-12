@@ -72,7 +72,7 @@ vector<Matrix> generateVector(int dim) {
 
 double matMult(Matrix vect, Matrix matr) {
 	Matrix m1 = vect.transpost() * matr * vect;
-	cout << "matMult det = " << m1.det() << endl;
+	cout << "x^T*F*x = " << m1.det() << endl;
 	return m1.det();
 }
 
@@ -83,7 +83,7 @@ double findAlpha(double a, double b) {
 }
 
 Matrix calculateNewMatrix(Matrix f, Matrix h, Matrix vector) {
-	/*
+
 	double fx = matMult(vector, f);
 	double hx = matMult(vector, h);
 	double c1 = 1 / (fx - hx);
@@ -92,7 +92,7 @@ Matrix calculateNewMatrix(Matrix f, Matrix h, Matrix vector) {
 	Matrix tmp = c1 * ((c2 * f) + (c3 * h));
 	return tmp;
 	
-	*/
+	/*
 	double alpha = findAlpha(matMult(vector, h), matMult(vector, f));
 	cout << "alpha = " << alpha << endl;
 	Matrix a = alpha * h;
@@ -102,7 +102,7 @@ Matrix calculateNewMatrix(Matrix f, Matrix h, Matrix vector) {
 	Matrix tmp = (a + b);
 	//cout << "i = " << i << " det tmp ("<<j<<" "<<k<<") must be = 1 but his = " << matMult(vectors[i],tmp) << endl;
 	return tmp;
-	
+	*/
 }
 
 
@@ -149,7 +149,7 @@ int main()
 	set<Matrix> B; // < 1
 	set<Matrix> C; // = 1
 
-	while (true) {
+	//while (true) {
 		for (Matrix vect : vectors) {
 			for (Matrix matr : startMatrix) {
 				double result = matMult(vect, matr);
@@ -176,7 +176,7 @@ int main()
 				for (Matrix a : A) {
 					for (Matrix b : B) {
 						Matrix tmp = calculateNewMatrix(a, b, vect);
-						cout << endl << "TMP = " << endl << tmp;
+						cout << endl << "New matrix = " << endl << tmp;
 						C.insert(tmp);
 					}
 				}
@@ -189,7 +189,7 @@ int main()
 		A.clear();
 		B.clear();
 		C.clear();
-	}
+	//}
 
 	Matrix min = findMinMatrix(&startMatrix);
 	cout << "Min det for N = " << N << " is: " << min.det() << endl;
