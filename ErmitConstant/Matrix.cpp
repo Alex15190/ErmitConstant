@@ -69,6 +69,7 @@ public:
 	bool operator!=(const Matrix& matrix);
 	double* operator[] (int i);
 	friend Matrix operator*(double k, const Matrix& m);
+	friend bool operator<(const Matrix& matrix, const Matrix& matrix2);
 	friend ostream& operator<< (ostream& out, const Matrix& matrix);
 	friend istream& operator>> (istream& in, Matrix& matrix);
 
@@ -865,6 +866,23 @@ bool Matrix::operator!=(const Matrix& matrix) {
 		}
 	}
 	return res;
+}
+
+//This is fix for error with set and loops
+bool operator<(const Matrix& m, const Matrix& m2) {
+	int cm = 0;
+	int cm2 = 0;
+	if (m.cols < m2.cols && m.rows < m2.rows) return true;
+	else if (m.cols > m2.cols && m.rows > m2.rows) return false;
+	else if (m.cols == m2.cols && m.rows == m2.rows) {
+		for (int i = 0; i < m.rows; i++) {
+			for (int j = 0; j < m.cols; j++) {
+				if (m.matrix[i][j] < m2.matrix[i][j]) cm++;
+				else if (m.matrix[i][j] > m2.matrix[i][j]) cm2++;
+			}
+		}
+	}
+	return cm < cm2;
 }
 
 double* Matrix::operator[] (int i) {

@@ -72,6 +72,7 @@ public:
 	bool operator!=(const Matrix& matrix);
 	double* operator[] (int i);
 	friend Matrix operator*(double k, const Matrix& m);
+	friend bool operator<(const Matrix& matrix, const Matrix& matrix2);
 	friend ostream& operator<< (ostream& out, const Matrix& matrix);
 	friend istream& operator>> (istream& in, Matrix& matrix);
 
