@@ -1,2 +1,5 @@
 ErmitConstant/Debug/
 .vs/
+ErmitConstant/x64/Debug/
+x64/Debug/
+ErmitConstant/ErmitConstant.vcxproj.user
