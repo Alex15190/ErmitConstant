@@ -7,19 +7,18 @@
 #include "Matrix.h"
 using namespace std;
 
-const int N = 3;
+const int N = 4;
 const int MAXN = N * (N - 1) / 2;
-const int nForVector = 1;  //using for generate vectors
+const int nForVector = 2;  //using for generate vectors
 double a[MAXN];
-
 
 void generateMatrix(int n, int m, int ind, set<Matrix>* globMatr) {
 	if (!n && !m)
 	{
-		for (int i = 0; i < MAXN; i++) {
-			cout << "a[" << i << "] = " << a[i] << endl;
-		}
-		cout << endl;
+		//for (int i = 0; i < MAXN; i++) {
+		//	cout << "a[" << i << "] = " << a[i] << endl;
+		//}
+		//cout << endl;
 		globMatr->insert(Matrix(N, a));
 		return;
 	}
@@ -71,8 +70,8 @@ vector<Matrix> generateVector(int dim) {
 }
 
 double matMult(Matrix vect, Matrix matr) {
-	Matrix m1 = vect.transpost() * matr * vect;
-	cout << "x^T*F*x = " << m1.det() << endl;
+	Matrix m1 = (vect.transpost() * matr) * vect;
+	cout << "x^T*F*x = " << endl << vect.transpost() << " * " << endl << matr << " * " << endl << vect << " = " << endl << m1.det() << endl;
 	return m1.det();
 }
 
@@ -134,8 +133,8 @@ int main()
 
 	cout << "Start" << endl;
 	
-	for (int i = 0; i <= N; i++) {
-		int n = i, m = N - i;
+	for (int i = 0; i <= MAXN; i++) {
+		int n = i, m = MAXN - i;
 		generateMatrix(n, m, 0, &startMatrix);
 	}
 
@@ -149,9 +148,38 @@ int main()
 	set<Matrix> B; // < 1
 	set<Matrix> C; // = 1
 
-	//while (true) {
-		for (Matrix vect : vectors) {
-			for (Matrix matr : startMatrix) {
+
+	Matrix firstMatrix = findMinMatrix(&startMatrix);
+	cout << "Matrix with minimal determinant is: " << endl << firstMatrix << endl;
+	for (Matrix vect : vectors) {
+		double result = matMult(vect, firstMatrix);
+		if (result > 1) {
+			A.insert(firstMatrix);
+		}
+		else if (result == 1) {
+			C.insert(firstMatrix);
+		}
+		else if (result < 1) {
+			B.insert(firstMatrix);
+		}
+	}
+
+	if (B.empty()) {
+		cout << "First try" << endl;
+		cout << "Min det for N = " << N << " is: " << firstMatrix.det() << endl;
+		return 0;
+	}
+
+
+	A.clear();
+	B.clear();
+	C.clear();
+
+	while (true) {
+		cout << "Количество матриц с каждой иттерации = " << startMatrix.size() << endl;
+
+		for (Matrix matr : startMatrix) {
+			for (Matrix vect : vectors) {
 				double result = matMult(vect, matr);
 				if (result > 1) {
 					A.insert(matr);
@@ -163,15 +191,55 @@ int main()
 					B.insert(matr);
 				}
 			}
+
+			//убрать лишнюю матрицу 
+
+			if (B.empty()) {
+				//если список матриц кончился, то все нашли
+				continue;
+			}
+			else {
+				for (Matrix vect : vectors) {
+					for (Matrix a : A) {
+						for (Matrix b : B) {
+							Matrix tmp = calculateNewMatrix(a, b, vect);
+							cout << endl << "New matrix = " << endl << tmp;
+							C.insert(tmp);
+						}
+					}
+				}
+				startMatrix.clear();
+				startMatrix.insert(A.begin(), A.end());
+				startMatrix.insert(C.begin(), C.end());
+				A.clear();
+				B.clear();
+				C.clear();
+			}
+
 		}
+	}
+
+	/*
+	for (Matrix matr : startMatrix) {
+		for (Matrix vect : vectors) {
+			double result = matMult(vect, matr);
+			if (result > 1) {
+				A.insert(matr);
+			}
+			else if (result == 1) {
+				C.insert(matr);
+			}
+			else if (result < 1) {
+				B.insert(matr);
+			}
+		}
+
+		//убрать лишнюю матрицу 
 
 		if (B.empty()) {
-			Matrix min = findMinMatrix(&startMatrix);
-			cout << "Min det for N = " << N << " is: " << min.det() << endl;
-			return 0;
-		}
-
-		else {
+			//если список матриц кончился, то все нашли
+			continue;
+		} else {
 			for (Matrix vect : vectors) {
 				for (Matrix a : A) {
 					for (Matrix b : B) {
@@ -181,15 +249,34 @@ int main()
 					}
 				}
 			}
+			startMatrix.clear();
+			startMatrix.insert(A.begin(), A.end());
+			startMatrix.insert(C.begin(), C.end());
+			A.clear();
+			B.clear();
+			C.clear();
 		}
 
-		startMatrix.clear();
-		startMatrix.insert(A.begin(), A.end());
-		startMatrix.insert(C.begin(), C.end());
-		A.clear();
-		B.clear();
-		C.clear();
-	//}
+	}
+	/*
+	if (B.empty()) {
+		Matrix min = findMinMatrix(&startMatrix);
+		cout << "Min det for N = " << N << " is: " << min.det() << endl;
+		return 0;
+	}
+
+	else {
+		for (Matrix vect : vectors) {
+			for (Matrix a : A) {
+				for (Matrix b : B) {
+					Matrix tmp = calculateNewMatrix(a, b, vect);
+					cout << endl << "New matrix = " << endl << tmp;
+					C.insert(tmp);
+				}
+			}
+		}
+	}
+	*/
 
 	Matrix min = findMinMatrix(&startMatrix);
 	cout << "Min det for N = " << N << " is: " << min.det() << endl;
